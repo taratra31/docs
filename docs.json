@@ -25,7 +25,9 @@
     },
     "pages": [
       "index-mdx",
-      "assistant-md"
+      "assistant-md",
+      "openapi-json",
+      "api-reference-mdx"
     ]
   },
   "logo": {

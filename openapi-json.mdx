@@ -1,0 +1,298 @@
+---
+title: "openapi.json"
+---
+
+```json
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "MbokaPay API",
+    "description": "API documentation for MbokaPay card management system",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.mbokapay.com",
+      "description": "Production server"
+    },
+    {
+      "url": "https://staging.mbokapay.com",
+      "description": "Staging server"
+    }
+  ],
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "tags": ["Health"],
+        "summary": "Health check",
+        "operationId": "healthCheck",
+        "responses": {
+          "200": {
+            "description": "API is running"
+          }
+        }
+      }
+    },
+    "/api/v1/cardholders": {
+      "post": {
+        "tags": ["Cardholders"],
+        "summary": "Create a cardholder",
+        "operationId": "createCardholder",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["firstname", "lastname", "email"],
+                "properties": {
+                  "firstname": { "type": "string", "example": "Jean" },
+                  "lastname": { "type": "string", "example": "Ranaivo" },
+                  "email": { "type": "string", "format": "email", "example": "jean@test.com" },
+                  "mobile": { "type": "string", "example": "0341234567" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Cardholder created" },
+          "401": { "description": "Unauthorized" }
+        },
+        "security": [{ "api_key": [] }]
+      }
+    },
+    "/api/v1/cards": {
+      "post": {
+        "tags": ["Cards"],
+        "summary": "Create a virtual card",
+        "operationId": "createCard",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["cardholder_id", "currency", "amount"],
+                "properties": {
+                  "cardholder_id": { "type": "integer", "example": 1 },
+                  "currency": { "type": "string", "example": "USD" },
+                  "amount": { "type": "number", "example": 100 }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Card created" }
+        },
+        "security": [{ "api_key": [] }]
+      }
+    },
+    "/api/v1/cards/{id}": {
+      "get": {
+        "tags": ["Cards"],
+        "summary": "Get card details",
+        "operationId": "getCardDetails",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Card details" },
+          "404": { "description": "Card not found" }
+        },
+        "security": [{ "api_key": [] }]
+      }
+    },
+    "/api/v1/api-keys": {
+      "get": {
+        "tags": ["API Keys"],
+        "summary": "List API keys",
+        "operationId": "listApiKeys",
+        "responses": {
+          "200": { "description": "API keys list" }
+        },
+        "security": [{ "api_key": [] }]
+      },
+      "post": {
+        "tags": ["API Keys"],
+        "summary": "Create API key",
+        "operationId": "createApiKey",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name", "environment"],
+                "properties": {
+                  "name": { "type": "string", "example": "My API Key" },
+                  "environment": {
+                    "type": "string",
+                    "example": "sandbox",
+                    "enum": ["sandbox", "live"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "API key created" }
+        },
+        "security": [{ "api_key": [] }]
+      }
+    },
+    "/api/v1/api-keys/{id}": {
+      "delete": {
+        "tags": ["API Keys"],
+        "summary": "Delete API key",
+        "operationId": "deleteApiKey",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "204": { "description": "API key deleted" }
+        },
+        "security": [{ "api_key": [] }]
+      }
+    },
+    "/api/v1/webhooks": {
+      "get": {
+        "tags": ["Webhooks"],
+        "summary": "List webhooks",
+        "operationId": "listWebhooks",
+        "responses": {
+          "200": { "description": "Webhooks list" }
+        },
+        "security": [{ "api_key": [] }]
+      },
+      "post": {
+        "tags": ["Webhooks"],
+        "summary": "Create webhook",
+        "operationId": "createWebhook",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["url", "events"],
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "format": "url",
+                    "example": "https://example.com/webhook"
+                  },
+                  "events": {
+                    "type": "array",
+                    "items": { "type": "string" },
+                    "example": ["card.created", "card.activated"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Webhook created" }
+        },
+        "security": [{ "api_key": [] }]
+      }
+    },
+    "/api/v1/webhooks/{id}": {
+      "delete": {
+        "tags": ["Webhooks"],
+        "summary": "Delete webhook",
+        "operationId": "deleteWebhook",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "204": { "description": "Webhook deleted" }
+        },
+        "security": [{ "api_key": [] }]
+      }
+    },
+    "/api/v1/user": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get user profile",
+        "operationId": "getUserProfile",
+        "responses": {
+          "200": { "description": "User profile" }
+        },
+        "security": [{ "api_key": [] }]
+      }
+    },
+    "/api/v1/user/transactions": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get user transactions",
+        "operationId": "getUserTransactions",
+        "responses": {
+          "200": { "description": "User transactions" }
+        },
+        "security": [{ "api_key": [] }]
+      }
+    },
+    "/api/v1/user/device-token": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Save user device token",
+        "operationId": "saveUserDeviceToken",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["token"],
+                "properties": {
+                  "token": { "type": "string", "example": "fcm_token_123" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Token saved" }
+        },
+        "security": [{ "api_key": [] }]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "api_key": {
+        "type": "apiKey",
+        "name": "X-API-Key",
+        "in": "header"
+      }
+    }
+  },
+  "tags": [
+    { "name": "Health", "description": "Health" },
+    { "name": "Cardholders", "description": "Cardholders" },
+    { "name": "Cards", "description": "Cards" },
+    { "name": "API Keys", "description": "API Keys" },
+    { "name": "Webhooks", "description": "Webhooks" },
+    { "name": "User", "description": "User" }
+  ]
+}
+```

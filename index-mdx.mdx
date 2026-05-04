@@ -4,52 +4,42 @@ title: "index.mdx"
 
 # MbokaPay API Documentation
 
-Bienvenue sur la documentation officielle de l'API MbokaPay.
+Bienvenue sur la documentation API MbokaPay.
 
 ## Base URL
 
-- Sandbox: `https://staging.mbokapay.com`
+- Sandbox: [https://staging.mbokapay.com](https://staging.mbokapay.com)
 
-- Live: `https://mbokapay.com`
+- Live: [https://mbokapay.com](https://mbokapay.com)
 
 ## Authentication
 
-Toutes les requêtes API nécessitent une clé API dans le header:
+Header required: X-API-Key
 
-## Endpoints principaux
+## Endpoints
 
-- `GET /api/v1/health`
+- GET /api/v1/health
 
-- `POST /api/v1/cardholders`
+- POST /api/v1/cardholders
 
-- `POST /api/v1/cards`
+- POST /api/v1/cards
 
-- `GET /api/v1/cards/{id}`
+- GET /api/v1/cards/{id}
 
-- `GET /api/v1/api-keys`
+- GET /api/v1/api-keys
 
-- `POST /api/v1/api-keys`
+- POST /api/v1/api-keys
 
-- `DELETE /api/v1/api-keys/{id}`
+- DELETE /api/v1/api-keys/{id}
 
-- `GET /api/v1/webhooks`
+- GET /api/v1/webhooks
 
-- `POST /api/v1/webhooks`
+- POST /api/v1/webhooks
 
-- `DELETE /api/v1/webhooks/{id}`
+- DELETE /api/v1/webhooks/{id}
 
-- `GET /api/v1/user`
+- GET /api/v1/user
 
-- `GET /api/v1/user/transactions`
+- GET /api/v1/user/transactions
 
-- `POST /api/v1/user/device-token`
-
-## Quickstart
-
-1. Générer une clé API sandbox
-
-2. Créer un cardholder
-
-3. Créer une carte
-
-4. Configurer un webhook
+- POST /api/v1/user/device-token

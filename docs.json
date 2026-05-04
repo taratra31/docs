@@ -25,8 +25,7 @@
     },
     "pages": [
       "index-mdx",
-      "",
-      ""
+      "assistant-md"
     ]
   },
   "logo": {
